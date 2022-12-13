@@ -71,7 +71,7 @@ public class CarController : MonoBehaviour
         wheelMesh = GameObject.FindGameObjectsWithTag("WheelMesh");
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.centerOfMass = GameObject.Find("CenterOfMess").transform.localPosition;
-        _speedText = GameObject.FindGameObjectWithTag("SpeedUI").GetComponent<TextMeshProUGUI>();
+        
 
         for(int i =0; i < wheelMesh.Length; i++)
         {
@@ -93,7 +93,7 @@ public class CarController : MonoBehaviour
             wheelMesh[i].transform.SetPositionAndRotation(wheelPosition, wheelRotation);
         }
         //_speed = (Mathf.Abs((_rigidbody.velocity.x + _rigidbody.velocity.y + _rigidbody.velocity.z) / 3)) * 20;
-        _speed = _rigidbody.velocity.magnitude * 2.5f;
+        _speed = _rigidbody.velocity.magnitude * 3f;
         if(_speedText != null)
         {
             if (_useRound)
@@ -174,11 +174,11 @@ public class CarController : MonoBehaviour
             {
                 if (_steerAngle < 0)
                 {
-                    _steerAngle = _steerAngle + Mathf.Clamp(_speed / 25, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f) > 0 ? 0 : _steerAngle + Mathf.Clamp(_speed / 25, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f);
+                    _steerAngle = _steerAngle + Mathf.Clamp(_speed / 35, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f) > 0 ? 0 : _steerAngle + Mathf.Clamp(_speed / 35, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f);
                 }
                 else
                 {
-                    _steerAngle = _steerAngle - Mathf.Clamp(_speed / 25, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f) < 0 ? 0 : _steerAngle - Mathf.Clamp(_speed / 25, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f);
+                    _steerAngle = _steerAngle - Mathf.Clamp(_speed / 35, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f) < 0 ? 0 : _steerAngle - Mathf.Clamp(_speed / 35, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f);
                 }
             }
         }
