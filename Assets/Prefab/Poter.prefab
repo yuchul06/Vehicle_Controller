@@ -4188,7 +4188,7 @@ MonoBehaviour:
   _maxSteerAngle: 39
   _minSteerAngle: 2.5
   _currentMaxSteerAngle: 0
-  _maxMotorTorque: 1500
+  _maxMotorTorque: 1100
   _maxSpeed: 200
   _maxBrakeTorque: 5000
   _driveType: 1
@@ -4225,14 +4225,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _steerSpeed: 0.548
   _aGear: 0
   _steerAngle: 0
   _motorTorque: 0
   _brakeTorque: 0
   _speed: 0
-  _steerSpeed: 0.548
   _steerModel: {fileID: 3384240299350214962}
-  _maxSteerModelAngle: 900
+  _steerModelAngle: 1080
+  _gearText: {fileID: 0}
+  _ringImage: {fileID: 0}
   _speedText: {fileID: 0}
   _useRound: 1
 --- !u!1 &9028643267581261488

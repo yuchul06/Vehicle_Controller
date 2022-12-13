@@ -14,6 +14,7 @@ public class CarController : MonoBehaviour
     [SerializeField]
     private GameObject[] wheelMesh;
 
+    [Header("Property")]
     [SerializeField]
     private float _maxSteerAngle;
     [SerializeField]
@@ -28,12 +29,14 @@ public class CarController : MonoBehaviour
     private float _maxBrakeTorque;
     [SerializeField]
     private DriveType _driveType;
-
     [SerializeField]
     private AnimationCurve TorqueCurve;
+    [SerializeField]
+    [Range(0.05f,1f)]
+    private float _steerSpeed;
 
 
-    [Header("Status")]
+    [Header("\nStatus")]
     [SerializeField]
     private AutoGear _aGear;
     [SerializeField]
@@ -44,22 +47,22 @@ public class CarController : MonoBehaviour
     private float _brakeTorque;
     [SerializeField]
     private float _speed;
-    [SerializeField]
-    [Range(0.001f,1f)]
-    private float _steerSpeed;
-
-    [Header("Interior Anim")]
+    
+    [Header("\nInterior Anim")]
     [SerializeField]
     private GameObject _steerModel;
     [SerializeField]
-    private float _maxSteerModelAngle;
+    private float _steerModelAngle = 900;
 
-
-    [Header("UI")]
+    [Header("\nUI")]
     [SerializeField]
-    private TextMeshProUGUI _speedText;
+    private TextMeshProUGUI _gearText = null;
     [SerializeField]
-    private bool _useRound;
+    private Image _ringImage = null;
+    [SerializeField]
+    private TextMeshProUGUI _speedText = null;
+    [SerializeField]
+    private bool _useRound = true;
 
 
     private bool canFlip = true;
@@ -71,6 +74,7 @@ public class CarController : MonoBehaviour
         wheelMesh = GameObject.FindGameObjectsWithTag("WheelMesh");
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.centerOfMass = GameObject.Find("CenterOfMess").transform.localPosition;
+
         
 
         for(int i =0; i < wheelMesh.Length; i++)
@@ -83,6 +87,12 @@ public class CarController : MonoBehaviour
         }
 
         canFlip = true;
+
+        _speedText = GameObject.FindGameObjectWithTag("SpeedUI").GetComponent<TextMeshProUGUI>();
+        _gearText = GameObject.FindGameObjectWithTag("GearUI").GetComponent<TextMeshProUGUI>();
+        _ringImage = GameObject.FindGameObjectWithTag("GaugeRingUI").GetComponent<Image>();
+
+        UpdateGearText();
     }
     private void FixedUpdate()
     {
@@ -92,34 +102,58 @@ public class CarController : MonoBehaviour
             wheelColliders[i].GetWorldPose(out Vector3 wheelPosition, out Quaternion wheelRotation);
             wheelMesh[i].transform.SetPositionAndRotation(wheelPosition, wheelRotation);
         }
-        //_speed = (Mathf.Abs((_rigidbody.velocity.x + _rigidbody.velocity.y + _rigidbody.velocity.z) / 3)) * 20;
+
         _speed = _rigidbody.velocity.magnitude * 3f;
-        if(_speedText != null)
+
+        UpdateSpeedText();
+        UpdateRingFilled();
+    }
+    #region UI
+    private void UpdateSpeedText()
+    {
+        if (_speedText != null)
         {
             if (_useRound)
             {
-                _speedText.text = ((int)_speed).ToString() + "KM/H";
+                _speedText.text = ((int)_speed).ToString();
             }
             else
             {
-                _speedText.text = _speed.ToString() + "KM/H";
+                _speedText.text = _speed.ToString();
             }
         }
     }
+    private void UpdateRingFilled()
+    {
+        if(_ringImage != null)
+        {
+            _ringImage.fillAmount = _speed / _maxSpeed;
+        }
+    }
+    private void UpdateGearText()
+    {
+        if(_gearText != null)
+        {
+            _gearText.text = _aGear.ToString();
+        }
+    }
+    #endregion
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.JoystickButton5))
         {
             if (_aGear != AutoGear.D)
             {
                 _aGear++;
+                UpdateGearText();
             }
         }
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.JoystickButton4))
         {
             if (_aGear != AutoGear.P)
             {
                 _aGear--;
+                UpdateGearText();
             }
         }
         if (Input.GetKeyDown(KeyCode.R) && canFlip)
@@ -142,7 +176,6 @@ public class CarController : MonoBehaviour
             //}
             if (_speed < _maxSpeed)
             {
-                Debug.Log(TorqueCurve.Evaluate((_speed) / _maxSpeed));
                 _motorTorque = _maxMotorTorque * Input.GetAxis("Vertical") * Mathf.Lerp(1, 0.1f, TorqueCurve.Evaluate((_speed)/_maxSpeed));
             }
             else
@@ -193,12 +226,12 @@ public class CarController : MonoBehaviour
             if(_steerAngle < 0)
             {
                 _steerModel.transform.localRotation = Quaternion.Euler(0, 0,
-                Mathf.Lerp(0, Mathf.Lerp(1, _maxSteerModelAngle/2, _currentMaxSteerAngle/_maxSteerAngle), Math.Abs(_steerAngle) / _currentMaxSteerAngle));
+                Mathf.Lerp(0, Mathf.Lerp(1, _steerModelAngle/2, _currentMaxSteerAngle/_maxSteerAngle), Math.Abs(_steerAngle) / _currentMaxSteerAngle));
             }
             else if(_steerAngle > 0)
             {
                 _steerModel.transform.localRotation = Quaternion.Euler(0, 0,
-                Mathf.Lerp(0, -Mathf.Lerp(1, _maxSteerModelAngle/2, _currentMaxSteerAngle / _maxSteerAngle), Math.Abs(_steerAngle) / _currentMaxSteerAngle));
+                Mathf.Lerp(0, -Mathf.Lerp(1, _steerModelAngle/2, _currentMaxSteerAngle / _maxSteerAngle), Math.Abs(_steerAngle) / _currentMaxSteerAngle));
             }
             else
             {
