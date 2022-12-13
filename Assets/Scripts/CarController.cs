@@ -103,7 +103,7 @@ public class CarController : MonoBehaviour
             wheelMesh[i].transform.SetPositionAndRotation(wheelPosition, wheelRotation);
         }
 
-        _speed = _rigidbody.velocity.magnitude * 3f;
+        _speed = _rigidbody.velocity.magnitude * 4f;
 
         UpdateSpeedText();
         UpdateRingFilled();
