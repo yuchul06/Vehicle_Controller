@@ -4188,8 +4188,8 @@ MonoBehaviour:
   _maxSteerAngle: 39
   _minSteerAngle: 2.5
   _currentMaxSteerAngle: 0
-  _maxMotorTorque: 1100
-  _maxSpeed: 200
+  _maxMotorTorque: 1000
+  _maxSpeed: 180
   _maxBrakeTorque: 5000
   _driveType: 1
   TorqueCurve:
@@ -4205,13 +4205,13 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.053134564
     - serializedVersion: 3
-      time: 0.90339136
-      value: 0.99804777
-      inSlope: 0.24109381
-      outSlope: 0.24109381
+      time: 0.69556665
+      value: 0.9102792
+      inSlope: 0.5958089
+      outSlope: 0.5958089
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.06537659
+      inWeight: 0.2250448
       outWeight: 0.39703685
     - serializedVersion: 3
       time: 1.0012207
