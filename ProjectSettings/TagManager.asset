@@ -8,6 +8,7 @@ TagManager:
   - SpeedUI
   - GaugeRingUI
   - GearUI
+  - CameraTarget
   layers:
   - Default
   - TransparentFX
