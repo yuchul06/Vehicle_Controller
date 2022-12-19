@@ -39,6 +39,10 @@ public class CarController : MonoBehaviour
     [Header("\nStatus")]
     [SerializeField]
     private AutoGear _aGear;
+    public AutoGear AGear
+    {
+        get => _aGear;
+    }
     [SerializeField]
     private float _steerAngle;
     [SerializeField]
@@ -71,20 +75,25 @@ public class CarController : MonoBehaviour
     private Rigidbody _rigidbody;
     private void Awake()
     {
-        wheelMesh = GameObject.FindGameObjectsWithTag("WheelMesh");
+        wheelMesh = new GameObject[gameObject.transform.Find("wheel").childCount];
+        for(int i = 0; i < gameObject.transform.Find("wheel").childCount; i++)
+        {
+            wheelMesh[i] = gameObject.transform.Find("wheel").GetChild(i).gameObject;
+        }
+
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.centerOfMass = GameObject.Find("CenterOfMess").transform.localPosition;
 
         
 
-        for(int i =0; i < wheelMesh.Length; i++)
-        {
-            if(wheelMesh[i].name.Contains("FR") || wheelMesh[i].name.Contains("RR"))
-            {
-                wheelMesh[i].transform.localScale = new Vector3
-                    (-wheelMesh[i].transform.localScale.x, wheelMesh[i].transform.localScale.y, wheelMesh[i].transform.localScale.z);
-            }
-        }
+        //for(int i =0; i < wheelMesh.Length; i++)
+        //{
+        //    if(wheelMesh[i].name.Contains("FR") || wheelMesh[i].name.Contains("RR"))
+        //    {
+        //        wheelMesh[i].transform.localScale = new Vector3
+        //            (-wheelMesh[i].transform.localScale.x, wheelMesh[i].transform.localScale.y, wheelMesh[i].transform.localScale.z);
+        //    }
+        //}
 
         canFlip = true;
 
