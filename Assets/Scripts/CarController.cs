@@ -140,6 +140,19 @@ public class CarController : MonoBehaviour
     #endregion
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R) && canFlip)
+        {
+            Flip();
+        }
+
+        Gear();
+        Accel();
+        Steer();
+        Move(_steerAngle, _motorTorque, _brakeTorque);
+    }
+
+    private void Gear()
+    {
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.JoystickButton5))
         {
             if (_aGear != AutoGear.D)
@@ -156,14 +169,6 @@ public class CarController : MonoBehaviour
                 UpdateGearText();
             }
         }
-        if (Input.GetKeyDown(KeyCode.R) && canFlip)
-        {
-            Flip();
-        }
-        
-        Accel();
-        Steer();
-        Move(_steerAngle, _motorTorque, _brakeTorque);
     }
 
     private void Accel()
@@ -189,7 +194,7 @@ public class CarController : MonoBehaviour
         }
         else
         {
-            _motorTorque = 0;
+            _motorTorque = _maxMotorTorque / 850;
             _brakeTorque = 0;
         }
     }
@@ -207,11 +212,11 @@ public class CarController : MonoBehaviour
             {
                 if (_steerAngle < 0)
                 {
-                    _steerAngle = _steerAngle + Mathf.Clamp(_speed / 35, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f) > 0 ? 0 : _steerAngle + Mathf.Clamp(_speed / 35, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f);
+                    _steerAngle = _steerAngle + Mathf.Clamp(_speed / 50, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f) > 0 ? 0 : _steerAngle + Mathf.Clamp(_speed / 50, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f);
                 }
                 else
                 {
-                    _steerAngle = _steerAngle - Mathf.Clamp(_speed / 35, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f) < 0 ? 0 : _steerAngle - Mathf.Clamp(_speed / 35, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f);
+                    _steerAngle = _steerAngle - Mathf.Clamp(_speed / 50, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f) < 0 ? 0 : _steerAngle - Mathf.Clamp(_speed / 50, 0, Mathf.Abs(_steerAngle) / _currentMaxSteerAngle*1.5f);
                 }
             }
         }
@@ -268,8 +273,13 @@ public class CarController : MonoBehaviour
         }
 
             
-        
-        
+        if(_aGear == AutoGear.P)
+        {
+            for(int i = 0; i< wheelColliders.Count; i++)
+            {
+                wheelColliders[i].brakeTorque = _maxBrakeTorque / 10;
+            }
+        }
 
         int motorCount = 0;
         switch (_driveType)
@@ -316,6 +326,10 @@ public class CarController : MonoBehaviour
                 {
                     wheelColliders[i].motorTorque = motorTorque;
                 }
+            }
+            else
+            {
+                wheelColliders[i].motorTorque = 0;
             }
             }
     }
