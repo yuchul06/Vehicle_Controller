@@ -7,7 +7,13 @@ public class VCamSetting : MonoBehaviour
 {
     public CinemachineVirtualCamera VCam;
     public ViewOption[] targets;
-    
+
+    public Views CurrentView = Views.FirstPerson;
+    public KeyCode ChangeViewKey = KeyCode.C;
+    private int ViewsCount
+    {
+        get => System.Enum.GetValues(typeof(Views)).Length;
+    }
 
     private void OnEnable()
     {
@@ -17,9 +23,23 @@ public class VCamSetting : MonoBehaviour
     }
     private void Start()
     {
-        ChangeTarget(Views.FirstPerson);
+        ChangeTarget(CurrentView);
     }
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(ChangeViewKey))
+        {
+            if((int)CurrentView == ViewsCount-1)
+            {
+                CurrentView = 0;
+            }
+            else
+            {
+                CurrentView++;
+            }
+            ChangeTarget(CurrentView);
+        }
+    }
     private void ChangeTarget(Views option)
     {
         for(int i = 0; i < targets.Length; i++)

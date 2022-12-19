@@ -13,5 +13,5 @@ public enum Views
 }
 public class ViewOption : MonoBehaviour
 {
-    public Views option;
+    public Views option = Views.FirstPerson;
 }
