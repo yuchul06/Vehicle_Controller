@@ -39,6 +39,10 @@ public class CarController : MonoBehaviour
     [Header("\nStatus")]
     [SerializeField]
     private AutoGear _aGear;
+    public AutoGear AGear
+    {
+        get => _aGear;
+    }
     [SerializeField]
     private float _steerAngle;
     [SerializeField]
@@ -71,20 +75,25 @@ public class CarController : MonoBehaviour
     private Rigidbody _rigidbody;
     private void Awake()
     {
-        wheelMesh = GameObject.FindGameObjectsWithTag("WheelMesh");
-        _rigidbody = GetComponent<Rigidbody>();
-        _rigidbody.centerOfMass = GameObject.Find("CenterOfMess").transform.localPosition;
-
-        
-
-        for(int i =0; i < wheelMesh.Length; i++)
+        wheelMesh = new GameObject[gameObject.transform.Find("wheel").childCount];
+        for (int i = 0; i < gameObject.transform.Find("wheel").childCount; i++)
         {
-            if(wheelMesh[i].name.Contains("FR") || wheelMesh[i].name.Contains("RR"))
-            {
-                wheelMesh[i].transform.localScale = new Vector3
-                    (-wheelMesh[i].transform.localScale.x, wheelMesh[i].transform.localScale.y, wheelMesh[i].transform.localScale.z);
-            }
+            wheelMesh[i] = gameObject.transform.Find("wheel").GetChild(i).gameObject;
         }
+
+        _rigidbody = GetComponent<Rigidbody>();
+        SetCenterOfMess();
+
+
+
+        //for(int i =0; i < wheelMesh.Length; i++)
+        //{
+        //    if(wheelMesh[i].name.Contains("FR") || wheelMesh[i].name.Contains("RR"))
+        //    {
+        //        wheelMesh[i].transform.localScale = new Vector3
+        //            (-wheelMesh[i].transform.localScale.x, wheelMesh[i].transform.localScale.y, wheelMesh[i].transform.localScale.z);
+        //    }
+        //}
 
         canFlip = true;
 
@@ -94,6 +103,13 @@ public class CarController : MonoBehaviour
 
         UpdateGearText();
     }
+    [ContextMenu("무게중심 재조정")]
+    private void SetCenterOfMess()
+    {
+        
+        _rigidbody.centerOfMass = gameObject.transform.Find("CenterOfMess").transform.localPosition;
+    }
+
     private void FixedUpdate()
     {
 
@@ -109,7 +125,7 @@ public class CarController : MonoBehaviour
         UpdateRingFilled();
     }
     #region UI
-    private void UpdateSpeedText()
+    public void UpdateSpeedText()
     {
         if (_speedText != null)
         {
@@ -123,14 +139,14 @@ public class CarController : MonoBehaviour
             }
         }
     }
-    private void UpdateRingFilled()
+    public void UpdateRingFilled()
     {
         if(_ringImage != null)
         {
             _ringImage.fillAmount = _speed / _maxSpeed;
         }
     }
-    private void UpdateGearText()
+    public void UpdateGearText()
     {
         if(_gearText != null)
         {
@@ -308,11 +324,11 @@ public class CarController : MonoBehaviour
             {
                 if (_driveType == DriveType.AWD)
                 {
-                    wheelColliders[i].motorTorque = -motorTorque/4;
+                    wheelColliders[i].motorTorque = -motorTorque*0.5f*0.5f;
                 }
                 else
                 {
-                    wheelColliders[i].motorTorque = -motorTorque;
+                    wheelColliders[i].motorTorque = -motorTorque*0.5f;
                 }
                 
             }
@@ -320,7 +336,7 @@ public class CarController : MonoBehaviour
             {
                 if(_driveType == DriveType.AWD)
                 {
-                    wheelColliders[i].motorTorque = motorTorque/4;
+                    wheelColliders[i].motorTorque = motorTorque*0.5f;
                 }
                 else
                 {

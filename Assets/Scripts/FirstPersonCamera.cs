@@ -22,6 +22,9 @@ public class FirstPersonCamera : MonoBehaviour
         _vCamSet = GetComponent<VCamSetting>();
         composer = _vcam.GetCinemachineComponent<CinemachineComposer>();
     }
+    private void Start()
+    {
+    }
 
     void Update()
     {
@@ -69,7 +72,10 @@ public class FirstPersonCamera : MonoBehaviour
 
     private void ThirdPersonCam()
     {
-
+        if(GameManager.instance.CurrentCar != null)
+        {
+           
+        }
     }
 
     private void FirstPersonCam()

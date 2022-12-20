@@ -6,6 +6,7 @@ using Cinemachine;
 public class VCamSetting : MonoBehaviour
 {
     public CinemachineVirtualCamera VCam;
+    static public VCamSetting instance;
     public ViewOption[] targets;
 
     public Views CurrentView = Views.FirstPerson;
@@ -15,16 +16,34 @@ public class VCamSetting : MonoBehaviour
         get => System.Enum.GetValues(typeof(Views)).Length;
     }
 
-    private void OnEnable()
+    private void Awake()
     {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    
+   
         VCam = GetComponent<CinemachineVirtualCamera>();
-        targets = GameObject.FindObjectsOfType<ViewOption>();
-        
+        //targets = GameObject.FindObjectsOfType<ViewOption>();
+
     }
     private void Start()
     {
-        ChangeTarget(CurrentView);
+        //ChangeTarget(CurrentView);
     }
+
+    public void ChangeCar(CarController car)
+    {
+        targets = car.gameObject.transform.Find("CameraPos").GetComponentsInChildren<ViewOption>();
+        ChangeTarget(Views.FirstPerson);
+        CurrentView = Views.FirstPerson;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(ChangeViewKey))
