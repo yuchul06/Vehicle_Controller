@@ -15,7 +15,6 @@ public class FirstPersonCamera : MonoBehaviour
     public KeyCode ResetCameraKey = KeyCode.Alpha1;
 
     private VCamSetting _vCamSet;
-    private Vector3 thirdTemp;
 
     void Awake()
     {
@@ -25,7 +24,6 @@ public class FirstPersonCamera : MonoBehaviour
     }
     private void Start()
     {
-        thirdTemp = GameManager.instance.CurrentCar.gameObject.transform.Find("CameraPos").Find("Third").transform.position;
     }
 
     void Update()

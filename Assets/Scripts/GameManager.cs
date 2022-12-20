@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     static public GameManager instance;
     public CarController CurrentCar = null;
     public CarController[] Cars;
+    public KeyCode ChangeCarKey = KeyCode.Tab;
     private int _currentCarIndex = 0;
     public int FrameLimit = 60;
 
@@ -29,6 +30,14 @@ public class GameManager : MonoBehaviour
         Cars = FindObjectsOfType<CarController>();
         _currentCarIndex = -1;
         ChangeCar();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(ChangeCarKey))
+        {
+            ChangeCar();
+        }
     }
     [ContextMenu("차량 변경")]
     public void ChangeCar()
@@ -56,6 +65,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        CurrentCar.UpdateGearText();
+        CurrentCar.UpdateRingFilled();
+        CurrentCar.UpdateSpeedText();
         VCamSetting.instance.ChangeCar(CurrentCar);
+
     }
 }

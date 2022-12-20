@@ -34,12 +34,14 @@ public class VCamSetting : MonoBehaviour
     }
     private void Start()
     {
-        ChangeTarget(CurrentView);
+        //ChangeTarget(CurrentView);
     }
 
     public void ChangeCar(CarController car)
     {
         targets = car.gameObject.transform.Find("CameraPos").GetComponentsInChildren<ViewOption>();
+        ChangeTarget(Views.FirstPerson);
+        CurrentView = Views.FirstPerson;
     }
 
     private void Update()
