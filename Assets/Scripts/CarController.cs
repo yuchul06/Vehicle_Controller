@@ -22,6 +22,8 @@ public class CarController : MonoBehaviour
     [SerializeField]
     private float _currentMaxSteerAngle;
     [SerializeField]
+    private float _maxSteerLimitSpeed = 180f;
+    [SerializeField]
     private float _maxMotorTorque;
     [SerializeField]
     private float _maxSpeed;
@@ -68,7 +70,8 @@ public class CarController : MonoBehaviour
     [SerializeField]
     private bool _useRound = true;
 
-
+    [Header("\nFlip")]
+    public float upHeight = 1f;
     private bool canFlip = true;
 
 
@@ -237,7 +240,7 @@ public class CarController : MonoBehaviour
             }
         }
         SteerAnim();
-        _currentMaxSteerAngle = Mathf.Lerp(_minSteerAngle, _maxSteerAngle, (_maxSpeed - _speed) / _maxSpeed);
+        _currentMaxSteerAngle = Mathf.Lerp(_minSteerAngle, _maxSteerAngle, (_maxSteerLimitSpeed - _speed) / _maxSteerLimitSpeed);
     }
 
     private void SteerAnim()
@@ -353,7 +356,7 @@ public class CarController : MonoBehaviour
     private void Flip()
     {
         StartCoroutine(FlipDelay());
-        transform.position += new Vector3(0, 2.5f, 0);
+        transform.position += new Vector3(0, upHeight, 0);
         transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
