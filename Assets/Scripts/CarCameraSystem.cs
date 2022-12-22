@@ -4,22 +4,37 @@ using UnityEngine;
 using Cinemachine;
 using System;
 
-public class FirstPersonCamera : MonoBehaviour
+[RequireComponent(typeof(VCamSetting))]
+public class CarCameraSystem : MonoBehaviour
 {
-    Rigidbody2D asdf;
+    public static CarCameraSystem instance;
     private CinemachineVirtualCamera _vcam;
     private CinemachineComposer composer;
+    public GameObject thirdCamPos;
 
     public bool canRotate = false;
-    public float CameraSpeed = 0.1f;
+    [SerializeField]
+    private float firstPersonCamSpeed = 1;
+    public float FirstPersonCameraSpeed
+    {
+        get => firstPersonCamSpeed / 10;
+        set => firstPersonCamSpeed = value;
+    }
+    public float ThirdPersonCameraSpeed = 1.5f;
     public KeyCode ResetCameraKey = KeyCode.Alpha1;
 
-    private VCamSetting _vCamSet;
 
     void Awake()
     {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         _vcam = GetComponent<CinemachineVirtualCamera>();
-        _vCamSet = GetComponent<VCamSetting>();
         composer = _vcam.GetCinemachineComponent<CinemachineComposer>();
     }
     private void Start()
@@ -28,7 +43,7 @@ public class FirstPersonCamera : MonoBehaviour
 
     void Update()
     {
-        switch (_vCamSet.CurrentView)
+        switch (VCamSetting.instance.CurrentView)
         {
             case Views.FirstPerson:
                 FirstPersonCam();
@@ -74,7 +89,12 @@ public class FirstPersonCamera : MonoBehaviour
     {
         if(GameManager.instance.CurrentCar != null)
         {
-           
+            //float x = Input.GetAxis("Mouse X") * ThirdPersonCameraSpeed;
+            //float y = Input.GetAxis("Mouse Y") * ThirdPersonCameraSpeed;
+            //Quaternion q = thirdCamPos.transform.rotation;
+            //q.eulerAngles = new Vector3(q.eulerAngles.x + y, q.eulerAngles.y + x, q.eulerAngles.z);
+            //thirdCamPos.transform.rotation = q;
+
         }
     }
 
@@ -91,7 +111,7 @@ public class FirstPersonCamera : MonoBehaviour
 
         if (canRotate)
         {
-            composer.m_TrackedObjectOffset += new Vector3(Input.GetAxis("Mouse X") * CameraSpeed, Input.GetAxis("Mouse Y") * CameraSpeed, 0);
+            composer.m_TrackedObjectOffset += new Vector3(Input.GetAxis("Mouse X") * FirstPersonCameraSpeed, Input.GetAxis("Mouse Y") * FirstPersonCameraSpeed, 0);
             composer.m_TrackedObjectOffset = new Vector3(Mathf.Clamp(composer.m_TrackedObjectOffset.x, -5, 5), Mathf.Clamp(composer.m_TrackedObjectOffset.y, -5, 5), 0);
         }
         
