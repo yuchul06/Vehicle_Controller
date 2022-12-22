@@ -15,7 +15,42 @@ ModelImporter:
   - first:
       74: 6453529490932739369
     second: Wiper R|Bonnet.003Action.005
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body1
+    second: {fileID: 2100000, guid: 557c968503307b1459a364b9eeab4587, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Chrome
+    second: {fileID: 2100000, guid: 7b90fa6640a447843bbb39aee7ce77de, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass
+    second: {fileID: 2100000, guid: 15485417257d8494caf79bf92fa15712, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Interior
+    second: {fileID: 2100000, guid: 2475c1d81a9e1bc469b675600031814c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light Glass
+    second: {fileID: 2100000, guid: 5ac1b3d564ed8d94e852b552ce059af9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Plastic Black
+    second: {fileID: 2100000, guid: 2f90dee3033d03445a6893e48b837e0e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TurnSignal
+    second: {fileID: 2100000, guid: e7faf80edf8450d418c39766ef4b9857, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -8,7 +8,6 @@ public class VCamSetting : MonoBehaviour
     public CinemachineVirtualCamera VCam;
     static public VCamSetting instance;
     public ViewOption[] targets;
-
     public Views CurrentView = Views.FirstPerson;
     public KeyCode ChangeViewKey = KeyCode.C;
     private int ViewsCount
@@ -30,7 +29,6 @@ public class VCamSetting : MonoBehaviour
    
         VCam = GetComponent<CinemachineVirtualCamera>();
         //targets = GameObject.FindObjectsOfType<ViewOption>();
-
     }
     private void Start()
     {
@@ -39,7 +37,9 @@ public class VCamSetting : MonoBehaviour
 
     public void ChangeCar(CarController car)
     {
-        targets = car.gameObject.transform.Find("CameraPos").GetComponentsInChildren<ViewOption>();
+        targets =car.gameObject.transform.Find("CameraPos").GetComponentsInChildren<ViewOption>();
+        CarCameraSystem.instance.thirdCamPos = car.transform.Find("CameraPos").Find("Third").gameObject;
+
         ChangeTarget(Views.FirstPerson);
         CurrentView = Views.FirstPerson;
     }
@@ -70,6 +70,6 @@ public class VCamSetting : MonoBehaviour
                 return;
             }
         }
-        Debug.LogError("왜 없는데 시발련아");
+        Debug.LogError($"Can't find '{option}' ");
     }
 }
