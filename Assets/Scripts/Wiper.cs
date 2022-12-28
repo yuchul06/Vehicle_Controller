@@ -37,36 +37,67 @@ public class Wiper : MonoBehaviour
     IEnumerator WiperCorutine()
     {
         float i = 0;
-        if (current == WiperState.Off)
+        switch (current)
         {
-            i = 0;
-            animator.Play("Wiper", 1, 0f);
-            while (i <= 1)
-            {
-                animator.SetFloat("Wiper", i);
-                i += 0.1f;
-                yield return new WaitForSeconds(0.01f);
-            }
-            animator.SetFloat("Wiper", 1);
-            current++;
+            case WiperState.Off:
+                i = 0;
+                animator.Play("Wiper", 1, 0f);
+                while (i <= 1)
+                {
+                    animator.SetFloat("Wiper", i);
+                    i += 0.1f;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                animator.SetFloat("Wiper", 1);
+                current++;
+                animator.speed = (int)current+1;
+                break;
+            case WiperState.High:
+                i = 1;
+                while (i >= 0)
+                {
+                    animator.SetFloat("Wiper", i);
+                    i -= 0.1f;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                animator.SetFloat("Wiper", 0);
+                current = WiperState.Off;
+                break;
+            default:
+                current++;
+                animator.speed = (int)current + 1;
+                break;
         }
-        else if(current == WiperState.High)
-        {
-            i = 1;
-            while(i >= 0)
-            {
-                animator.SetFloat("Wiper", i);
-                i -= 0.1f;
-                yield return new WaitForSeconds(0.01f);
-            }
-            animator.SetFloat("Wiper", 0);
-            current = WiperState.Off;
-        }
-        else
-        {
-            current++;
-            animator.speed = (int)current;
-        }
+        //if (current == WiperState.Off)
+        //{
+        //    i = 0;
+        //    animator.Play("Wiper", 1, 0f);
+        //    while (i <= 1)
+        //    {
+        //        animator.SetFloat("Wiper", i);
+        //        i += 0.1f;
+        //        yield return new WaitForSeconds(0.01f);
+        //    }
+        //    animator.SetFloat("Wiper", 1);
+        //    current++;
+        //}
+        //else if(current == WiperState.High)
+        //{
+        //    i = 1;
+        //    while(i >= 0)
+        //    {
+        //        animator.SetFloat("Wiper", i);
+        //        i -= 0.1f;
+        //        yield return new WaitForSeconds(0.01f);
+        //    }
+        //    animator.SetFloat("Wiper", 0);
+        //    current = WiperState.Off;
+        //}
+        //else
+        //{
+        //    current++;
+        //    animator.speed = (int)current;
+        //}
         
     }
 }

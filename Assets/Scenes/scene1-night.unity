@@ -48838,6 +48838,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8881012528437598179, guid: b46165e4802e75145a7923dbe8276754, type: 3}
+      propertyPath: _steerSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881012528437598179, guid: b46165e4802e75145a7923dbe8276754, type: 3}
+      propertyPath: _maxMotorTorque
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881012528437598179, guid: b46165e4802e75145a7923dbe8276754, type: 3}
+      propertyPath: TorqueCurve.m_Curve.Array.data[1].time
+      value: 0.6292825
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881012528437598179, guid: b46165e4802e75145a7923dbe8276754, type: 3}
+      propertyPath: TorqueCurve.m_Curve.Array.data[1].value
+      value: 0.96157926
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881012528437598179, guid: b46165e4802e75145a7923dbe8276754, type: 3}
+      propertyPath: TorqueCurve.m_Curve.Array.data[1].inSlope
+      value: 0.33944932
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881012528437598179, guid: b46165e4802e75145a7923dbe8276754, type: 3}
+      propertyPath: TorqueCurve.m_Curve.Array.data[2].inSlope
+      value: 0.029977657
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881012528437598179, guid: b46165e4802e75145a7923dbe8276754, type: 3}
+      propertyPath: TorqueCurve.m_Curve.Array.data[1].outSlope
+      value: 0.33944932
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881012528437598179, guid: b46165e4802e75145a7923dbe8276754, type: 3}
+      propertyPath: TorqueCurve.m_Curve.Array.data[2].inWeight
+      value: 0.16432412
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881012528437598179, guid: b46165e4802e75145a7923dbe8276754, type: 3}
+      propertyPath: TorqueCurve.m_Curve.Array.data[2].outSlope
+      value: 0.029977657
+      objectReference: {fileID: 0}
+    - target: {fileID: 8881012528437598179, guid: b46165e4802e75145a7923dbe8276754, type: 3}
+      propertyPath: TorqueCurve.m_Curve.Array.data[1].outWeight
+      value: 0.24593781
+      objectReference: {fileID: 0}
     - target: {fileID: 8881012528437598205, guid: b46165e4802e75145a7923dbe8276754, type: 3}
       propertyPath: m_Name
       value: Poter

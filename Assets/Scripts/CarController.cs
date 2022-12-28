@@ -53,6 +53,10 @@ public class CarController : MonoBehaviour
     private float _brakeTorque;
     [SerializeField]
     private float _speed;
+    public float Speed
+    {
+        get => _speed;
+    }
     
     [Header("\nInterior Anim")]
     [SerializeField]
@@ -122,7 +126,7 @@ public class CarController : MonoBehaviour
             wheelMesh[i].transform.SetPositionAndRotation(wheelPosition, wheelRotation);
         }
 
-        _speed = _rigidbody.velocity.magnitude * 4f;
+        _speed = _rigidbody.velocity.magnitude * 6f;
 
         UpdateSpeedText();
         UpdateRingFilled();
@@ -358,6 +362,7 @@ public class CarController : MonoBehaviour
         StartCoroutine(FlipDelay());
         transform.position += new Vector3(0, upHeight, 0);
         transform.rotation = Quaternion.Euler(0, 0, 0);
+        _rigidbody.velocity = Vector3.zero;
     }
 
      IEnumerator FlipDelay()
