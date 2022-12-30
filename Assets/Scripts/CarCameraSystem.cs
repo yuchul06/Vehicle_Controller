@@ -89,6 +89,14 @@ public class CarCameraSystem : MonoBehaviour
     {
         if(GameManager.instance.CurrentCar != null)
         {
+            if(GameManager.instance.CurrentCar.AGear == GlobalType.AutoGear.R)
+            {
+                thirdCamPos.transform.rotation = new Quaternion(0, 180, 0, 0);
+            }
+            else
+            {
+                thirdCamPos.transform.rotation = new Quaternion(0, 0, 0, 0);
+            }
             //float x = Input.GetAxis("Mouse X") * ThirdPersonCameraSpeed;
             //float y = Input.GetAxis("Mouse Y") * ThirdPersonCameraSpeed;
             //Quaternion q = thirdCamPos.transform.rotation;

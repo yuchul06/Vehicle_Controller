@@ -6,13 +6,11 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 
+[RequireComponent(typeof(WheelVisual))]
+[RequireComponent(typeof (Rigidbody))]
 public class CarController : MonoBehaviour
 {
-    [SerializeField] 
-    private List<WheelCollider> wheelColliders = new List<WheelCollider>();
-
-    [SerializeField]
-    private GameObject[] wheelMesh;
+    public List<WheelCollider> wheelColliders = new List<WheelCollider>();
 
     [Header("Property")]
     [SerializeField]
@@ -75,18 +73,14 @@ public class CarController : MonoBehaviour
     private bool _useRound = true;
 
     [Header("\nFlip")]
-    public float upHeight = 1f;
+    public float maxFlipHeight = 1f;
     private bool canFlip = true;
 
 
     private Rigidbody _rigidbody;
     private void Awake()
     {
-        wheelMesh = new GameObject[gameObject.transform.Find("wheel").childCount];
-        for (int i = 0; i < gameObject.transform.Find("wheel").childCount; i++)
-        {
-            wheelMesh[i] = gameObject.transform.Find("wheel").GetChild(i).gameObject;
-        }
+        
 
         _rigidbody = GetComponent<Rigidbody>();
         SetCenterOfMess();
@@ -120,11 +114,7 @@ public class CarController : MonoBehaviour
     private void FixedUpdate()
     {
 
-        for (int i = 0; i < 4; i++)
-        {
-            wheelColliders[i].GetWorldPose(out Vector3 wheelPosition, out Quaternion wheelRotation);
-            wheelMesh[i].transform.SetPositionAndRotation(wheelPosition, wheelRotation);
-        }
+        
 
         _speed = _rigidbody.velocity.magnitude * 6f;
 
@@ -360,8 +350,16 @@ public class CarController : MonoBehaviour
     private void Flip()
     {
         StartCoroutine(FlipDelay());
-        transform.position += new Vector3(0, upHeight, 0);
-        transform.rotation = Quaternion.Euler(0, 0, 0);
+        Ray ray = new Ray(transform.position, Vector3.up);
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, maxFlipHeight))
+        {
+            transform.position += new Vector3(0, hit.distance, 0);
+        }
+        else
+        {
+            transform.position += new Vector3(0, maxFlipHeight, 0);
+        }
         _rigidbody.velocity = Vector3.zero;
     }
 

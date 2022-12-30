@@ -26,7 +26,7 @@ public class Skid : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log($"{transform.parent} |RPM : {wCol.rpm}, Speed : {carController.Speed}, radius * rpm * 0.1f : {(wCol.radius) * wCol.rpm * 0.1f}");
+        //Debug.Log($"{transform.parent} |RPM : {wCol.rpm}, Speed : {carController.Speed}, radius * rpm * 0.1f : {(wCol.radius) * wCol.rpm * 0.1f}");
         
         wCol.GetGroundHit(out WheelHit hit);
         isSlip = wCol.isGrounded && carController.Speed > 1f && (Mathf.Abs(hit.sidewaysSlip) > minSlip || carController.Speed + 2.5f < Mathf.Abs((wCol.radius) * wCol.rpm * 0.1f));
