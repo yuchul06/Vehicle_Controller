@@ -16,6 +16,13 @@ public enum CarLightType
     FogLight,
 }
 [System.Serializable]
+public class lightObjControl
+{
+    public Light lightObj;
+    public float intensity = 1.5f;
+    
+}
+[System.Serializable]
 public class LightClass
 {
     public string name;
@@ -23,11 +30,12 @@ public class LightClass
     public CarLightType type;
     public Material material;
     public MeshRenderer meshRenderer;
+    public List<lightObjControl> lightObjs;
     public float Emission;
     public int matIndex;
     public bool isOn = false;
-    [HideInInspector]
-    public bool isDone = true;
+    public bool isDone;
+    
     public KeyCode Key;
 
 }
@@ -66,6 +74,7 @@ public class Lighting : MonoBehaviour
             //mat.SetColor("_EmissionColor", new Color(light.material.GetColor("_EmissionColor").r, light.material.GetColor("_EmissionColor").g, light.material.GetColor("_EmissionColor").b));
             light.meshRenderer.materials[light.matIndex] = mat;
             light.meshRenderer.materials[light.matIndex].SetColor("_EmissionColor", Color.black * light.Emission);
+            light.lightObjs.ForEach(obj => obj.lightObj.intensity = 0);
             light.isOn = false;
         });
     }
@@ -97,7 +106,7 @@ public class Lighting : MonoBehaviour
                     (Mathf.Lerp(0, light.material.GetColor("_EmissionColor").r, t/delay ),
                     Mathf.Lerp(0, light.material.GetColor("_EmissionColor").g, t / delay),
                     Mathf.Lerp(0, light.material.GetColor("_EmissionColor").b, t / delay)) * light.Emission);
-
+                light.lightObjs.ForEach(obj => obj.lightObj.intensity = Mathf.Lerp(0, obj.intensity, t / delay));
                 yield return new WaitForSeconds(lightUpdateDelay);
                 t += lightUpdateDelay;
             }
@@ -112,7 +121,7 @@ public class Lighting : MonoBehaviour
                     (Mathf.Lerp(light.material.GetColor("_EmissionColor").r, 0, t / delay),
                     Mathf.Lerp(light.material.GetColor("_EmissionColor").g, 0, t / delay),
                     Mathf.Lerp(light.material.GetColor("_EmissionColor").b, 0, t / delay)) * light.Emission);
-
+                light.lightObjs.ForEach(obj => obj.lightObj.intensity = Mathf.Lerp(obj.intensity, 0, t / delay));
                 yield return new WaitForSeconds(lightUpdateDelay);
                 t += lightUpdateDelay;
             }

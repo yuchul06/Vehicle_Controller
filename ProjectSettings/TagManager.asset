@@ -9,6 +9,7 @@ TagManager:
   - GaugeRingUI
   - GearUI
   - CameraTarget
+  - Map
   layers:
   - Default
   - TransparentFX

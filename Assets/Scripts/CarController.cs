@@ -73,8 +73,10 @@ public class CarController : MonoBehaviour
     private bool _useRound = true;
 
     [Header("\nFlip")]
-    public float maxFlipHeight = 1f;
-    private bool canFlip = true;
+    public float MinFlipHeight = 1f;
+    public float MaxFlipHeight = 5f;
+    public float FlipCoolTime = 2f;
+    private bool CanFlip = true;
 
 
     private Rigidbody _rigidbody;
@@ -96,7 +98,7 @@ public class CarController : MonoBehaviour
         //    }
         //}
 
-        canFlip = true;
+        CanFlip = true;
 
         _speedText = GameObject.FindGameObjectWithTag("SpeedUI").GetComponent<TextMeshProUGUI>();
         _gearText = GameObject.FindGameObjectWithTag("GearUI").GetComponent<TextMeshProUGUI>();
@@ -153,7 +155,7 @@ public class CarController : MonoBehaviour
     #endregion
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && canFlip)
+        if (Input.GetKeyDown(KeyCode.R) && CanFlip)
         {
             Flip();
         }
@@ -349,25 +351,39 @@ public class CarController : MonoBehaviour
 
     private void Flip()
     {
-        StartCoroutine(FlipDelay());
-        Ray ray = new Ray(transform.position, Vector3.up);
-        RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, maxFlipHeight))
+        StartCoroutine(FlipCool());
+        //Ray ray = new Ray(transform.position+ Vector3.up*2, Vector3.up * MaxFlipHeight);
+        //RaycastHit hit;
+        Debug.DrawRay(transform.position + Vector3.up * 2, Vector3.up * MaxFlipHeight, Color.green, 1f);
+        if(Physics.Raycast(transform.position + Vector3.up * 2, Vector3.up  , out RaycastHit hit, MaxFlipHeight))
         {
-            transform.position += new Vector3(0, hit.distance, 0);
+            Debug.Log(hit.distance);
+            if (hit.collider)
+            {
+                Debug.Log(hit.collider.gameObject.name);
+                if (hit.collider.CompareTag("Map"))
+                {
+                    transform.position += new Vector3(0, hit.distance, 0);
+                }
+
+                
+            }
         }
         else
         {
-            transform.position += new Vector3(0, maxFlipHeight, 0);
+            transform.position += new Vector3(0, MinFlipHeight, 0);
         }
+
         _rigidbody.velocity = Vector3.zero;
+
+
     }
 
-     IEnumerator FlipDelay()
+     IEnumerator FlipCool()
     {
-        canFlip = false;
-        yield return new WaitForSeconds(2f);
-        canFlip = true;
+        CanFlip = false;
+        yield return new WaitForSeconds(FlipCoolTime);
+        CanFlip = true;
     }
     
 

@@ -5931,7 +5931,9 @@ MonoBehaviour:
   _ringImage: {fileID: 0}
   _speedText: {fileID: 0}
   _useRound: 1
-  upHeight: 1
+  MinFlipHeight: 1
+  MaxFlipHeight: 15
+  FlipCoolTime: 2
 --- !u!114 &6222695745126509538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5977,6 +5979,9 @@ MonoBehaviour:
     type: 1
     material: {fileID: 2100000, guid: 1963eedb362e7b148aa824b8b42bdb32, type: 2}
     meshRenderer: {fileID: 4277320091683578542}
+    lightObjs:
+    - {fileID: 1456818249}
+    - {fileID: 1869642079}
     Emission: 3
     matIndex: 3
     isOn: 0
